@@ -1,7 +1,7 @@
 import { useState } from "react";
-import AddTodo from "../AddTodo/AddTodo";
-import { v4 as uuid} from 'uuid';
-import TodoList from "../TodoList/TodoList";
+import AddTodo from "../AddTodo/AddTodo.js";
+import { v4 as uuid } from "uuid";
+import TodoList from "../TodoList/TodoList.js";
 import TodoFooter from "../TodoFooter/TodoFooter.js";
 
 function Todo() {
@@ -72,7 +72,7 @@ function Todo() {
   }
 
   return (
-    <main>
+    <main className="min-h-screen">
       <AddTodo onTodoSubmit={handleAddTodo} />
       <TodoList
         filteredTodos={safeFilteredTodos}
