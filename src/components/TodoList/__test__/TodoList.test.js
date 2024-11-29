@@ -35,14 +35,14 @@ describe("TodoList", () => {
 
   it("should render active todo without line though", () => {
     render(<TodoList filteredTodos={mockFilteredTodos} />);
-    const listItemElements = screen.getAllByRole("listitem");
-    expect(listItemElements[0]).not.toHaveClass("line-through");
+    const activeItem = screen.getByText(/sleep/i)
+    expect(activeItem).not.toHaveClass("line-through");
   });
 
   it("should render completed todo with line though", () => {
     render(<TodoList filteredTodos={mockFilteredTodos} />);
-    const listItemElements = screen.getAllByRole("listitem");
-    expect(listItemElements[1]).toHaveClass("line-through");
+    const completedItem = screen.getByText(/buy milk/i)
+    expect(completedItem).toHaveClass("line-through");
   });
 
   it("should call onToggleTodoCompletion when a todo is clicked", () => {
@@ -52,8 +52,16 @@ describe("TodoList", () => {
         filteredTodos={mockFilteredTodos}
         onToggleTodoCompletion={mockToggleTodoCompletion}
       />);
-      const listItemElements = screen.getAllByRole("listitem");
-      userEvent.click(listItemElements[0]);
+      const activeItem = screen.getByText(/sleep/i)
+      userEvent.click(activeItem);
       expect(mockToggleTodoCompletion).toHaveBeenCalledTimes(1);
   });
+
+  it("should call onClickDeleteTodo when cross icon is clicked", ()=>{
+    const mockOnClickDeleteTodo = jest.fn();
+    render(<TodoList filteredTodos={mockFilteredTodos} onClickDeleteTodo={mockOnClickDeleteTodo}/>)
+    const deleteButtons = screen.getAllByLabelText("delete todo");
+    userEvent.click(deleteButtons[0]);
+    expect(mockOnClickDeleteTodo).toHaveBeenCalledTimes(1);
+  })
 });
