@@ -71,12 +71,25 @@ function Todo() {
     setTodos(updatedTodos);
   }
 
+  function handleClickDeleteTodo(todoId) {
+    const updatedTodos = todos.filter((todo) => {
+      if (todo.id === todoId) {
+        return false;
+      } else {
+        return todo;
+      }
+    });
+
+    setTodos(updatedTodos);
+  }
+
   return (
-    <main className="min-h-screen">
+    <main>
       <AddTodo onTodoSubmit={handleAddTodo} />
       <TodoList
         filteredTodos={safeFilteredTodos}
         onToggleTodoCompletion={toggleTodoCompletion}
+        onClickDeleteTodo = {handleClickDeleteTodo}
       />
       <TodoFooter
         numOfActive={numOfActive}
