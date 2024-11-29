@@ -130,4 +130,15 @@ describe("Todo Integration Test", () => {
     expect(divElement).not.toBeInTheDocument();
   })
 
+  it("should update items left after delete a todo", async()=> {
+    render(<Todo />);
+    await addTasks(["Task 1", "Task 2", "Task 3"]);
+    const task1DeleteBttn = screen.getAllByLabelText("delete todo")[0];
+    await userEvent.click(task1DeleteBttn);
+    let task1 = screen.queryByText(/task 1/i);
+    expect(task1).not.toBeInTheDocument();
+    const activeTasksText = screen.getByText(/2 items left/i);
+    expect(activeTasksText).toBeInTheDocument();
+  })
+
 });
