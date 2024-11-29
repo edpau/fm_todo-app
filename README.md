@@ -112,6 +112,46 @@ function handleComplete(todoId) {
 In this example, clicking on a todo item toggles its complete status without directly mutating the state, ensuring that React correctly detects and handles the state change.
 
 
+### 2. Animatie sun and moon icon
+```js
+  <button onClick={handleClick} >
+      <img className="transition-all duration-1000" src={isLight? moonIcon : sunIcon} alt={isLight? "Moon icon toggle to dark mode" : "Sun icon toggle to light mode"} width={"20px"}/>
+    </button>
+```
+The issue arises because when you toggle between two different SVG images (moonIcon and sunIcon), the browser treats this as a complete replacement of the src attribute, and CSS transitions do not animate such changes. Instead, they work for animating properties like opacity, transform, or color.
+
+```js
+    <button onClick={handleClick} className="relative w-5 h-5 bottom-1">
+      <img
+        src={moonIcon}
+        alt="Moon Icon"
+        width="20px"
+        className={`transition-opacity duration-500 ${isLight ? "opacity-100" : "opacity-0"} absolute`}
+      />
+      <img
+        src={sunIcon}
+        alt="Sun Icon"
+        width="20px"
+        className={`transition-opacity duration-500 ${isLight ? "opacity-0" : "opacity-100"} absolute`}
+      />
+    </button>
+```
+
+### 3.Tailwind CSS Border Gradient, used on todo check border hover
+[Tailwind CSS Border Gradient Tutorial](https://www.youtube.com/watch?v=Vlyrob0uXHs)
+cover the background-gradient circle with a circle, to create the gradient border 
+
+### 4. Accessibility, when todo check/ uncheck, announce "completed" or "not completed"
+
+```js
+ <span aria-live="polite" className="sr-only">  {todo.complete ? 'completed' : 'not completed'}</span>
+```
+
+
+
+
+
+
 
 ## Testing Learn
 
@@ -131,6 +171,9 @@ Here’s how you could do it for your `TodoFooter` component tests.
 #### 1. **Create a Default Props Object**
 
 You can define a default props object outside of your test cases. This can then be spread into each `render` function to provide default values, and you can override individual props when needed.
+Best Practices to Avoid Test Refactoring???
+It is easier to add new function to pass in later, if new function is introduced. 
+But will it be simpler not pass in unused function, if they do not affect the test? GPT said yes.
 
 ```javascript
 // Default props for TodoFooter
@@ -347,6 +390,69 @@ it("should call onFilterChange with the correct filter value when a filter is se
         ][0].target.value,
       ).toBe(expectedValue);
     });
+  });
+```
+
+### 5. Example of not a good test
+```js
+ it("should render active todo without line though", () => {
+    render(<TodoList filteredTodos={mockFilteredTodos} />);
+    const listItemElements = screen.getAllByRole("listitem");
+    expect(listItemElements[0]).not.toHaveClass("line-through");
+  });
+
+  it("should render completed todo with line though", () => {
+    render(<TodoList filteredTodos={mockFilteredTodos} />);
+    const listItemElements = screen.getAllByRole("listitem");
+    expect(listItemElements[1]).toHaveClass("line-through");
+  });
+```
+
+It passes when I set up my draft todo list, but when I update the todo list to better match the design, I changed the code and the test fail. 
+Should use getByText, rather than the getByRole.
+
+```js
+ it("should render active todo without line though", () => {
+    render(<TodoList filteredTodos={mockFilteredTodos} />);
+    const activeItem = screen.getByText(/sleep/i)
+    expect(activeItem).not.toHaveClass("line-through");
+  });
+
+  it("should render completed todo with line though", () => {
+    render(<TodoList filteredTodos={mockFilteredTodos} />);
+    const completedItem = screen.getByText(/buy milk/i)
+    expect(completedItem).toHaveClass("line-through");
+  });
+```
+### 6. Example of not a good test 2
+
+```js
+  it("should call onToggleTodoCompletion when a todo is clicked", () => {
+    const mockToggleTodoCompletion = jest.fn();
+    render(
+      <TodoList
+        filteredTodos={mockFilteredTodos}
+        onToggleTodoCompletion={mockToggleTodoCompletion}
+      />);
+      const listItemElements = screen.getAllByRole("listitem");
+      userEvent.click(listItemElements[0]);
+      expect(mockToggleTodoCompletion).toHaveBeenCalledTimes(1);
+  });
+```
+
+Similar to previous test, should have use getByText, rather than the getByRole.
+
+```js
+ it("should call onToggleTodoCompletion when a todo is clicked", () => {
+    const mockToggleTodoCompletion = jest.fn();
+    render(
+      <TodoList
+        filteredTodos={mockFilteredTodos}
+        onToggleTodoCompletion={mockToggleTodoCompletion}
+      />);
+      const activeItem = screen.getByText(/sleep/i)
+      userEvent.click(activeItem);
+      expect(mockToggleTodoCompletion).toHaveBeenCalledTimes(1);
   });
 ```
 
