@@ -1,3 +1,52 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  * {
+    @apply transition-colors duration-300;
+  }
+
+  body {
+    font-family: "Josefin Sans", "sans-serif";
+  }
+
+  .light {
+
+    --background:0, 0%, 98%;
+
+    --heading: 0, 0%, 100%;
+
+    --input-bg: 0, 0%, 100%;
+    --input-text: 235, 19%, 35%;
+
+    --check-border: 236, 33%, 92%;
+
+    --todo-bg: 0, 0%, 100%;
+    --todo-border: 236, 33%, 92%;
+    --todo-text: 235, 19%, 35%;
+    --todo-text-complete: 233, 11%, 84%;
+
+    --footer-text: 236, 9%, 61%;
+    --footer-text-hover: 220, 98%, 61%;
+  }
+
+  .dark {
+    --background:235, 21%, 11%;
+    
+    --heading: 0, 0%, 100%;
+
+    --input-bg: 235, 24%, 19%;
+    --input-text: 234, 39%, 85%;
+
+    --check-border: 236, 14%, 26%;
+
+    --todo-bg: 235, 24%, 19%;
+    --todo-border: 237, 14%, 26%;
+    --todo-text: 234, 39%, 85%;
+    --todo-text-complete: 233, 14%, 35%;
+
+    --footer-text: 233, 14%, 35%;
+    --footer-text-hover: 220, 98%, 61%;
+  }
+}
