@@ -456,9 +456,40 @@ Similar to previous test, should have use getByText, rather than the getByRole.
   });
 ```
 
+### 7. Example of not a good test 3
+```js
+ it("should display only completed tasks when the completed filter is selected", async () => {
+    render(<Todo />);
+    await addTasks(["Task 1", "Task 2", "Task 3"]);
+    let task1 = screen.getByText(/task 1/i);
+    await userEvent.click(task1);
+    const completedFilter = screen.getByText("Completed");
+    await userEvent.click(completedFilter);
+    const divElements = screen.getAllByRole("listitem");
+    const task2 = screen.queryByText(/task 2/i);
+    expect(divElements).toHaveLength(1);
+    expect(task2).not.toBeInTheDocument();
+  })
+```
 
+After I added drag and drop function this test fail, the problem is dnd kit turn the listitem into a button, it give the list a `role = button`.
+It makes me think getByRole, is not as good as getByText, getByText is more behavior.
 
-
+update with `const divElements = screen.getAllByRole("button", {name: /task/i});` to 
+```js
+  it("should display only completed tasks when the completed filter is selected", async () => {
+    render(<Todo />);
+    await addTasks(["Task 1", "Task 2", "Task 3"]);
+    let task1 = screen.getByText(/task 1/i);
+    await userEvent.click(task1);
+    const completedFilter = screen.getByText("Completed");
+    await userEvent.click(completedFilter);
+    const divElements = screen.getAllByRole("button", {name: /task/i});
+    const task2 = screen.queryByText(/task 2/i);
+    expect(divElements).toHaveLength(1);
+    expect(task2).not.toBeInTheDocument();
+  })
+```
 
 ## further test if I use API to fetch todo, (but it should best handle in parent component, read below continue)
 Testing for `null` or `undefined` values in `filteredTodos` can be useful if you expect those cases to occur in your app, particularly when you’re handling dynamic data (e.g., from an API). It’s a way to ensure that your component behaves gracefully when the data is not available or is undefined.
@@ -598,3 +629,8 @@ it("should render nothing if filteredTodos is not provided", () => {
 - **Future-Proofing**: If the way `filteredTodos` is passed to `TodoList` changes in the future, the default value will ensure that you don't have to refactor the logic around handling `null` or `undefined`.
 
 In summary, adding a default value to `filteredTodos` is a great approach for ensuring that your component is robust, simple, and easier to maintain. It also makes your tests simpler, focusing on the actual behavior rather than handling edge cases for missing props.
+
+
+
+
+
