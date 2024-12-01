@@ -21,6 +21,7 @@
     --input-text: 235, 19%, 35%;
 
     --check-border: 236, 33%, 92%;
+    --cross-hover: 220, 98%, 61%;
 
     --todo-bg: 0, 0%, 100%;
     --todo-border: 236, 33%, 92%;
@@ -40,6 +41,7 @@
     --input-text: 234, 39%, 85%;
 
     --check-border: 236, 14%, 26%;
+    --cross-hover: 220, 98%, 61%;
 
     --todo-bg: 235, 24%, 19%;
     --todo-border: 237, 14%, 26%;

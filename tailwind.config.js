@@ -22,6 +22,7 @@ module.exports = {
         "check-border": "hsla(var(--check-border))",
         "check-border-hover":
           "linear-gradient(140deg, hsl(192, 100%, 67%), hsl(280, 87%, 65%))",
+        "cross-hover": "hsla(var(--cross-hover))",
         "todo-bg": "hsla(var(--todo-bg))",
         "todo-border": "hsla(var(--todo-border))",
         "todo-text": "hsla(var(--todo-text))",
