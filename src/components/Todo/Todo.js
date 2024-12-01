@@ -3,6 +3,20 @@ import AddTodo from "../AddTodo/AddTodo.js";
 import { v4 as uuid } from "uuid";
 import TodoList from "../TodoList/TodoList.js";
 import TodoFooter from "../TodoFooter/TodoFooter.js";
+import {
+  DndContext,
+  KeyboardSensor,
+  PointerSensor,
+  TouchSensor,
+  useSensor,
+  useSensors,
+  closestCorners,
+} from "@dnd-kit/core";
+import { arrayMove, sortableKeyboardCoordinates } from "@dnd-kit/sortable";
+import {
+  restrictToVerticalAxis,
+  restrictToParentElement,
+} from "@dnd-kit/modifiers";
 
 function Todo() {
   const [todos, setTodos] = useState([]);
@@ -83,14 +97,47 @@ function Todo() {
     setTodos(updatedTodos);
   }
 
+  const getTaskPos = (id) => todos.findIndex((todo) => todo.id === id);
+
+  function handleDragEnd(event) {
+    const { active, over } = event;
+
+    if (active.id === over.id) return;
+
+    setTodos((todos) => {
+      const originalPos = getTaskPos(active.id);
+      const newPos = getTaskPos(over.id);
+      return arrayMove(todos, originalPos, newPos);
+    });
+  }
+
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 3,
+      },
+    }),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    }),
+    useSensor(TouchSensor),
+  );
+
   return (
     <main>
       <AddTodo onTodoSubmit={handleAddTodo} />
-      <TodoList
-        filteredTodos={safeFilteredTodos}
-        onToggleTodoCompletion={toggleTodoCompletion}
-        onClickDeleteTodo = {handleClickDeleteTodo}
-      />
+      <DndContext
+        sensors={sensors}
+        collisionDetection={closestCorners}
+        onDragEnd={handleDragEnd}
+        modifiers={[restrictToVerticalAxis, restrictToParentElement]}
+      >
+        <TodoList
+          filteredTodos={safeFilteredTodos}
+          onToggleTodoCompletion={toggleTodoCompletion}
+          onClickDeleteTodo={handleClickDeleteTodo}
+        />
+      </DndContext>
       <TodoFooter
         numOfActive={numOfActive}
         onFilterChange={handleFilterChange}
