@@ -3,6 +3,9 @@ module.exports = {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
+      backgroundSize: {
+        "bgSize": "100% 30vh"
+      },
       fontFamily: {
         "josefin-sans": ["Josefin Sans", "sans-serif"],
       },
