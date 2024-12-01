@@ -21,7 +21,7 @@ describe("Todo Integration Test", () => {
   it("should render multiple tasks after multiple inputs and submissions", async () => {
     render(<Todo />);
     await addTasks(["Task 1", "Task 2", "Task 3"]);
-    const divElements = screen.getAllByRole("listitem");
+    const divElements = screen.getAllByRole("button", {name: /task/i});
     expect(divElements).toHaveLength(3);
   });
 
@@ -50,7 +50,7 @@ describe("Todo Integration Test", () => {
   it("should clear completed task when 'Clear Completed' button is clicked", async () => {
     render(<Todo />);
     await addTasks(["Task 1", "Task 2", "Task 3"]);
-    let divElements = screen.getAllByRole("listitem");
+    let divElements = screen.getAllByRole("button", {name: /task/i});
     expect(divElements).toHaveLength(3);
     const task1 = screen.getByText(/task 1/i);
     const task2 = screen.getByText(/task 2/i);
@@ -60,7 +60,7 @@ describe("Todo Integration Test", () => {
       name: "Clear Completed",
     });
     await userEvent.click(clearCompletedButton);
-    divElements = screen.getAllByRole("listitem");
+    divElements = screen.getAllByRole("button", {name: /task/i});
     expect(divElements).toHaveLength(1);
   });
 
@@ -89,7 +89,7 @@ describe("Todo Integration Test", () => {
     await userEvent.click(task1);
     const activeFilter = screen.getByText(/active/i);
     await userEvent.click(activeFilter);
-    const divElements = screen.getAllByRole("listitem");
+    const divElements = screen.getAllByRole("button", {name: /task/i});
     task1 = screen.queryByText(/task 1/i);
     expect(divElements).toHaveLength(2);
     expect(task1).not.toBeInTheDocument();
@@ -102,7 +102,7 @@ describe("Todo Integration Test", () => {
     await userEvent.click(task1);
     const completedFilter = screen.getByText("Completed");
     await userEvent.click(completedFilter);
-    const divElements = screen.getAllByRole("listitem");
+    const divElements = screen.getAllByRole("button", {name: /task/i});
     const task2 = screen.queryByText(/task 2/i);
     expect(divElements).toHaveLength(1);
     expect(task2).not.toBeInTheDocument();
@@ -115,11 +115,11 @@ describe("Todo Integration Test", () => {
     await userEvent.click(task1);
     const completedFilter = screen.getByText("Completed");
     await userEvent.click(completedFilter);
-    let divElements = screen.getAllByRole("listitem");
+    let divElements = screen.getAllByRole("button", {name: /task/i});
     expect(divElements).toHaveLength(1);
     const allFilter = screen.getByText("All");
     await userEvent.click(allFilter)
-    divElements = screen.getAllByRole("listitem");
+    divElements = screen.getAllByRole("button", {name: /task/i});
     expect(divElements).toHaveLength(3);
   })
 

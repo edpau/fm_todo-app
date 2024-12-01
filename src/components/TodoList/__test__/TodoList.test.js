@@ -4,8 +4,8 @@ import userEvent from "@testing-library/user-event";
 
 describe("TodoList", () => {
   const mockFilteredTodos = [
-    { id: 1, task: "Sleep", complete: false },
-    { id: 2, task: "Buy milk", complete: true },
+    { id: 1, task: "task 1", complete: false },
+    { id: 2, task: "task 2", complete: true },
   ];
 
   it("should render the list container", () => {
@@ -22,26 +22,26 @@ describe("TodoList", () => {
 
   it("should render all passed todos", () => {
     render(<TodoList filteredTodos={mockFilteredTodos} />);
-    const listItemElements = screen.getAllByRole("listitem");
+    const listItemElements = screen.getAllByRole("button", {name: /task/i});
     expect(listItemElements.length).toBe(2);
   });
 
   it("should render todos with correct content", () => {
     render(<TodoList filteredTodos={mockFilteredTodos} />);
-    const listItemElements = screen.getAllByRole("listitem");
-    expect(listItemElements[0]).toHaveTextContent("Sleep");
-    expect(listItemElements[1]).toHaveTextContent("Buy milk");
+    const listItemElements = screen.getAllByRole("button", {name: /task/i});
+    expect(listItemElements[0]).toHaveTextContent("task 1");
+    expect(listItemElements[1]).toHaveTextContent("task 2");
   });
 
   it("should render active todo without line though", () => {
     render(<TodoList filteredTodos={mockFilteredTodos} />);
-    const activeItem = screen.getByText(/sleep/i)
+    const activeItem = screen.getByText(/task 1/i)
     expect(activeItem).not.toHaveClass("line-through");
   });
 
   it("should render completed todo with line though", () => {
     render(<TodoList filteredTodos={mockFilteredTodos} />);
-    const completedItem = screen.getByText(/buy milk/i)
+    const completedItem = screen.getByText(/task 2/i)
     expect(completedItem).toHaveClass("line-through");
   });
 
@@ -52,7 +52,7 @@ describe("TodoList", () => {
         filteredTodos={mockFilteredTodos}
         onToggleTodoCompletion={mockToggleTodoCompletion}
       />);
-      const activeItem = screen.getByText(/sleep/i)
+      const activeItem = screen.getByText(/task 1/i)
       userEvent.click(activeItem);
       expect(mockToggleTodoCompletion).toHaveBeenCalledTimes(1);
   });
