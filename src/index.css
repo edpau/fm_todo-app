@@ -29,7 +29,8 @@
     --todo-text-complete: 233, 11%, 84%;
 
     --footer-text: 236, 9%, 61%;
-    --footer-text-hover: 220, 98%, 61%;
+    --footer-text-active: 220, 98%, 61%;
+    --footer-text-hover: 233, 14%, 25%;
   }
 
   .dark {
@@ -49,6 +50,7 @@
     --todo-text-complete: 233, 14%, 35%;
 
     --footer-text: 233, 14%, 35%;
-    --footer-text-hover: 220, 98%, 61%;
+    --footer-text-active: 220, 98%, 61%;
+    --footer-text-hover: 233, 14%, 25%;
   }
 }

@@ -124,7 +124,7 @@ function Todo() {
   );
 
   return (
-    <main>
+    <main className="max-w-[540px] mx-auto">
       <AddTodo onTodoSubmit={handleAddTodo} />
       <DndContext
         sensors={sensors}

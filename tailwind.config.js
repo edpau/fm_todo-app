@@ -4,7 +4,8 @@ module.exports = {
   theme: {
     extend: {
       backgroundSize: {
-        "bgSize": "100% 30vh"
+        "bg-mobile": "100% 29.5vh",
+        "bg-desk": "100% 41vh",
       },
       fontFamily: {
         "josefin-sans": ["Josefin Sans", "sans-serif"],
@@ -31,6 +32,7 @@ module.exports = {
         "todo-text": "hsla(var(--todo-text))",
         "todo-text-complete": "hsla(var(--todo-text-complete))",
         "footer-text": "hsla(var(--footer-text))",
+        "footer-text-active": "hsla(var(--footer-text-active))",
         "footer-text-hover": "hsla(var(--footer-text-hover))",
       },
     },
