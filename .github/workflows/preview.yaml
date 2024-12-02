@@ -11,7 +11,7 @@ on:
 
 jobs:
 
- Test:
+    Test:
         runs-on: ubuntu-latest
         steps:
 
@@ -23,7 +23,7 @@ jobs:
 
             - run: npm ci
 
-            - run: npm run test:prod
+            - run: npm run test
 
     Deploy-Preview:
       needs: [Test]
