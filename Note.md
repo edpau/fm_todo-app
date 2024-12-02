@@ -1,65 +1,75 @@
-# Frontend Mentor - Todo app solution
+# Todo
 
-This is a solution to the [Todo app challenge on Frontend Mentor](https://www.frontendmentor.io/challenges/todo-app-Su1_KokOW). Frontend Mentor challenges help you improve your coding skills by building realistic projects. 
+## component
+0. background
+1. Header
+2. dark mode switch
 
-## Table of contents
-
-- [Overview](#overview)
-  - [The challenge](#the-challenge)
-  - [Screenshot](#screenshot)
-  - [Links](#links)
-- [My process](#my-process)
-  - [Built with](#built-with)
-  - [What I learned](#what-i-learned)
-  - [Continued development](#continued-development)
-  - [Useful resources](#useful-resources)
-- [Author](#author)
-- [Testing note](#testing-note)
+- Todo
+useState: todos pass down
+function, filter the list of todo using filter, i am thinking to hold the whole list, then create a variable to hold the filter list. and pass down to todoList 
 
 
-
-## Overview
-
-### The challenge
-
-Users should be able to:
-
-- View the optimal layout for the app depending on their device's screen size
-- See hover states for all interactive elements on the page
-- Add new todos to the list
-- Mark todos as complete
-- Delete todos from the list
-- Filter by all/active/complete todos
-- Clear all completed todos
-- Toggle light and dark mode
-- **Bonus**: Drag and drop to reorder items on the list
-
-### Screenshot
-
-<img src="./src/assets/images/screenshot.png" alt="Screenshot" width="300"/>
-
-
-### Links
-
-- [Solution URL](https://github.com/edpau/fm_todo-app)
-- [Live Site URL](https://fm-todo-app-six.vercel.app)
-
-## My process
-
-### Built with
-
-- Semantic HTML5 markup
-- Mobile-first workflow
-- React
-- Tailwind CSS
-- dnd kit
-- Jest
-- React Testing library
 - uuid
+- todo
+- complete: boolean 
+
+    - AddTodo, input, onSubmit? then update todos
+    - TodoList, use map, un-order list, show filtered todos, 
+    - TodoFooter, radio button for clicking all, active, complete, button for clear complete
+
+
+## Todo
+- install uuid
+
+
+## Find out 
+- how to get main 100vh for full screen? 
+
+- good idea to separate input list and TodoFooter as three `<section>`
+
+- is using onKeyDown a good way for handle user enter to add a new todo? 
+
+- best way to cross out completed items
+
+- best way to create numOfActive
+
+
+## install uuid
+The warnings you are seeing are related to missing source maps for the uuid package. These warnings do not affect the functionality of your code but can be annoying during development. To resolve these warnings, you can disable source map generation for the uuid package.
+
+Add the following configuration to your webpack.config.js file to ignore source maps for the uuid package:
+```json 
+module.exports = {
+  // other configurations...
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        enforce: 'pre',
+        exclude: /node_modules\/uuid/,
+        use: ['source-map-loader'],
+      },
+    ],
+  },
+};
+```
+
+If you don't have a webpack.config.js file, you can create one in the root of your project and include the above configuration.
+
+Alternatively, you can ignore these warnings by adding the following to your .env file:
+
+```
+GENERATE_SOURCEMAP=false
+```
+
+This will disable source map generation for your entire project, which may not be ideal if you rely on source maps for debugging.
+
+If you continue to experience issues, consider checking the uuid package documentation or updating to the latest version.
 
 
 
-### What I learned
+## Learn
 
 ### 1. State management
 In React, state management is crucial for ensuring that components re-render correctly when data changes. Directly mutating state objects can lead to unexpected behavior and bugs because React relies on detecting changes to state to trigger re-renders. Instead, you should always create new objects or arrays when updating state.
@@ -137,34 +147,12 @@ cover the background-gradient circle with a circle, to create the gradient borde
 ```
 
 
-### Continued development
-
-- Start with local storage for immediate responsiveness and offline support.
-- Sync with a backend when the user is online:
-    1. Store todos locally as the user interacts with the app.
-    2. Push changes to the backend in the background or when the user saves their list.
-    3. Use a library like [Dexie.js](https://dexie.org/) for managing offline data with IndexedDB if I need more features.
-
-
-### Useful resources
-
-- [React Testing Library Tutorial](https://www.youtube.com/watch?v=7dTTFW7yACQ&list=PL4cUxeGkcC9gm4_-5UsNmLqMosM-dzuvQ)
-- [Testing Implementation Details](https://kentcdodds.com/blog/testing-implementation-details) - This is an amazing article which explain why is testing implementation details bad.
-- [How to know what to test](https://kentcdodds.com/blog/how-to-know-what-to-test)
-- [Avoid Nesting when you're Testing](https://kentcdodds.com/blog/avoid-nesting-when-youre-testing)
-- [Common mistakes with React Testing Library](https://kentcdodds.com/blog/common-mistakes-with-react-testing-library)
-
-
-## Author
-
-- Website - [Edward Pau](https://www.edpau.me)
-- Frontend Mentor - [@edpau](https://www.frontendmentor.io/profile/edpau)
 
 
 
 
 
-## Testing Note
+## Testing Learn
 
 ### 1. Passing unused props
 
@@ -467,7 +455,7 @@ Similar to previous test, should have use getByText, rather than the getByRole.
   });
 ```
 
-### 7. Example of not a good test 3 
+### 7. Example of not a good test 3
 ```js
  it("should display only completed tasks when the completed filter is selected", async () => {
     render(<Todo />);
